@@ -36,16 +36,16 @@ services:
       - .:/app
     command: ["python", "train_model.py"]
 
-  predict:
+  prediction_api:
     build:
       context: .
-      dockerfile: predict/Dockerfile
+      dockerfile: prediction_api/Dockerfile
     ports:
       - "8000:8000"
     volumes:
       - ./data:/data
       - .:/app
-    command: ["python", "predict.py"]
+    command: ["python", "app.py"]
 
 volumes:
   pg_data:

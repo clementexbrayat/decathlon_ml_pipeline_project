@@ -1,7 +1,4 @@
+flask
 pandas
-fastapi
-pydantic
 joblib
-uvicorn
 scikit-learn==1.3.2
-pickledb
