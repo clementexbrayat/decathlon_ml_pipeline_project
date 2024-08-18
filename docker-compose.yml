@@ -19,7 +19,8 @@ services:
     # depends_on:
     #   - db
     environment:
-      DATABASE_URI: postgresql://username:password@db:5432/mydatabase
+      # DATABASE_URI: postgresql://username:password@db:5432/mydatabase
+      PYTHONPATH: /app
     volumes:
       - ./data:/data
       - .:/app
@@ -30,7 +31,8 @@ services:
       context: .
       dockerfile: train_model/Dockerfile
     environment:
-      DATABASE_URI: postgresql://username:password@db:5432/mydatabase
+      # DATABASE_URI: postgresql://username:password@db:5432/mydatabase
+      PYTHONPATH: /app
     volumes:
       - ./data:/data
       - .:/app
@@ -42,6 +44,8 @@ services:
       dockerfile: prediction_api/Dockerfile
     ports:
       - "8000:8000"
+    environment:
+      PYTHONPATH: /app
     volumes:
       - ./data:/data
       - .:/app

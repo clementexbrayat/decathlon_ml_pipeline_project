@@ -7,12 +7,13 @@ from sklearn.ensemble import GradientBoostingRegressor
 import pickle
 import time
 import os
+import config
 
 def train_model():
     # Load processed data
-    df_train = pd.read_csv("/data/processed/train_processed.csv")
-    df_val = pd.read_csv("/data/processed/val_processed.csv")
-    df_test_feat = pd.read_csv("/data/processed/test_processed.csv")
+    df_train = pd.read_csv(config.PROCESSED_TRAIN_DATA_PATH)
+    df_val = pd.read_csv(config.PROCESSED_VAL_DATA_PATH)
+    df_test_feat = pd.read_csv(config.PROCESSED_TEST_DATA_PATH)
 
     y_train = df_train.turnover
     y_val = df_val.turnover
@@ -76,23 +77,20 @@ def train_model():
             print(f"Error saving model: {e}")
             raise
 
-    save_model(model_final, '/data/model/trained_model.pkl')
+    save_model(model_final, config.MODEL_PATH)
 
     # Predict on the test set
     y_pred = model_final.predict(df_test_feat)
     df_test_feat['prediction'] = y_pred
-    df_test_feat.to_csv("/data/processed/test_predictions.csv", index=False)
+    df_test_feat.to_csv(config.PROCESSED_PREDICTION_PATH, index=False)
 
     print("Model training completed and saved.")
 
 if __name__ == "__main__":
-    while not os.path.exists("/data/process_data_done.txt"):
+    while not all(os.path.exists(file) for file in [config.PROCESSED_TRAIN_DATA_PATH, config.PROCESSED_VAL_DATA_PATH, config.PROCESSED_TEST_DATA_PATH]):
         print("Waiting for process_data to finish...")
         time.sleep(4)
     
     print('Strating model training')
 
     train_model()
-
-    with open("/data/train_model_done.txt", "w") as f:
-        f.write("Model training completed.")

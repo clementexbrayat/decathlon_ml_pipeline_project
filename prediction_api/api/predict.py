@@ -1,13 +1,12 @@
 import joblib
-import pandas as pd
-from config import MODEL_PATH
+import config
 import time
 import os
 
 # Waiting for the model training to finish
 def wait_for_model_training():
     print("Checking for model training completion...")
-    while not os.path.exists("/data/train_model_done.txt"):
+    while not os.path.exists(config.MODEL_PATH):
         print("Waiting for train_model to finish...")
         time.sleep(4)
     print("Model training complete!")
@@ -17,7 +16,7 @@ wait_for_model_training()
 
 # Load the pre-trained model
 try:
-    model = joblib.load(MODEL_PATH)
+    model = joblib.load(config.MODEL_PATH)
 except FileNotFoundError:
     raise RuntimeError("Model file not found")
 
