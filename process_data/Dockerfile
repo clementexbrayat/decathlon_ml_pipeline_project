@@ -3,20 +3,17 @@ FROM python:3.9-slim
 
 # Set the working directory in the container
 # WORKDIR /app
-WORKDIR /app/predict
+WORKDIR /app
 
 # Copy the requirements file to the working directory
-COPY predict/requirements.txt .
+COPY process_data/requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install uvicorn
-RUN pip install uvicorn
 
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Alternatively, for a more complex application, you might start a web server
-EXPOSE 8000
-CMD ["uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "8000"]
+# Set the entry point for this container
+ENTRYPOINT ["python", "process_data/process_data.py"]

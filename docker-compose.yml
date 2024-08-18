@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # db:
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_USER: username
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: mydatabase
+  #   volumes:
+  #     - pg_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+  process_data:
+    build:
+      context: .
+      dockerfile: process_data/Dockerfile
+    # depends_on:
+    #   - db
+    environment:
+      DATABASE_URI: postgresql://username:password@db:5432/mydatabase
+    volumes:
+      - ./data:/data
+      - .:/app
+    command: ["python", "process_data.py"]
+
+  train_model:
+    build:
+      context: .
+      dockerfile: train_model/Dockerfile
+    environment:
+      DATABASE_URI: postgresql://username:password@db:5432/mydatabase
+    volumes:
+      - ./data:/data
+      - .:/app
+    command: ["python", "train_model.py"]
+
+  predict:
+    build:
+      context: .
+      dockerfile: predict/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+      - .:/app
+    command: ["python", "predict.py"]
+
+volumes:
+  pg_data:
