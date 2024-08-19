@@ -53,7 +53,7 @@ machine_learning_project/
 ├── docker-compose.yml            # Docker Compose configuration file
 ├── config.py                     # Configuration file
 ├── utils.py                      # Utility functions file
-├── project_presentation.pptx     # Project prensentation file
+├── project_presentation.pdf      # Project prensentation file
 └── README.md                     # Project README file
 ```
 
