@@ -72,9 +72,27 @@ docker-compose build
 You can eaither run all the pipeline in one go with docker-compose up or run each task individually with docker-compose run tash_name
 
 - Make predictions
+
 Once the Prediction API is running, you can make predictions by sending a POST request to http://localhost:8000/predict with JSON data. Example using curl:
 curl -X POST "http://localhost:8000/predict/" 
 -H "Content-Type: application/json" 
 -d '{"day_id": "2017-11-25", "but_num_business_unit": 95, "dpt_num_department": 73, "but_postcode": 80000, "but_latitude": 49.9, "but_longitude": 2.28, "but_region_idr_region": 69, "zod_idr_zone_dgr": 4}'. 
 The API will return a JSON response with the predictions: {"prediction":predicted_value}
+
+You can also use the API http://localhost:8000/predict_8_weeks to predict the turnover for the next 8 weeks. Example using curl:
+curl -X POST "http://localhost:8000/predict_8_weeks/" 
+-H "Content-Type: application/json" 
+-d '{"but_num_business_unit": 95, "dpt_num_department": 73, "but_postcode": 80000, "but_latitude": 49.9, "but_longitude": 2.28, "but_region_idr_region": 69, "zod_idr_zone_dgr": 4}'. 
+The API will return a JSON response with the predictions: {
+  "predictions": {
+    "2024-08-25": prediction_1,
+    "2024-09-01": prediction_2,
+    "2024-09-08": prediction_3,
+    "2024-09-15": prediction_4,
+    "2024-09-22": prediction_5,
+    "2024-09-29": prediction_6,
+    "2024-10-06": prediction_7,
+    "2024-10-13": prediction_8
+  }
+}
 

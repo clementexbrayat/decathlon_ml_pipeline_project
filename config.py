@@ -32,5 +32,3 @@ MODEL_PARAMETERS = {
     'tol': 1e-4,
     'ccp_alpha': 0.0
 }
-FEATURES = ['day_id', 'but_num_business_unit', 'dpt_num_department', 'but_postcode', 'but_latitude',
-            'but_longitude', 'but_region_idr_region', 'zod_idr_zone_dgr']

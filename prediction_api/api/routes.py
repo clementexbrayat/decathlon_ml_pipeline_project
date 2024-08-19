@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from api.predict import make_prediction
-from config import FEATURES
 import pandas as pd
+from datetime import datetime, timedelta
 
 api_blueprint = Blueprint('api', __name__)
 
@@ -24,8 +24,33 @@ def predict():
         data = request.get_json()
         input_data = InputData(**data)
         input_df = pd.DataFrame([input_data.__dict__])
-        input_df = input_df[FEATURES]
         prediction = make_prediction(input_df)
         return jsonify({'prediction': prediction[0]})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@api_blueprint.route('/predict_8_weeks', methods=['POST'])
+def predict_8_weeks():
+    try:
+        data = request.get_json()
+        
+        # Get the date of the first week for prediction (next saturday)
+        today = datetime.today()
+        start_date = today + timedelta(days=-today.weekday()+6, weeks=1)
+
+        # Generate data for each day in the next 8 weeks
+        rows = []
+        for i in range(0, 8):
+            new_data = data.copy()
+            new_date = start_date + timedelta(days=i*7)
+            new_data["day_id"] = new_date.strftime("%Y-%m-%d")
+            rows.append(new_data)
+        input_df = pd.DataFrame(rows)
+
+        predictions = make_prediction(input_df)
+        response = {'predictions': {}}
+        for (day_id, prediction) in zip(input_df['day_id'], predictions):
+            response['predictions'][str(day_id.strftime("%Y-%m-%d"))] = prediction
+        return jsonify(response)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
