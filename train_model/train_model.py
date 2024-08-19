@@ -53,7 +53,7 @@ def train_model():
     # Full pipeline including preprocessing and model
     full_pipeline = Pipeline([
         ('preparation', preparation_pipeline),
-        ('model', GradientBoostingRegressor())
+        ('model', GradientBoostingRegressor(**config.MODEL_PARAMETERS))
     ])
 
     # Train the model

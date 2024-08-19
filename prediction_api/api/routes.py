@@ -8,8 +8,7 @@ api_blueprint = Blueprint('api', __name__)
 # Define the input data schema
 class InputData:
     def __init__(self, day_id, but_num_business_unit, dpt_num_department, but_postcode, but_latitude,
-                 but_longitude, but_region_idr_region, zod_idr_zone_dgr, day_id_week, day_id_month,
-                 day_id_year):
+                 but_longitude, but_region_idr_region, zod_idr_zone_dgr):
         self.day_id = day_id
         self.but_num_business_unit = but_num_business_unit
         self.dpt_num_department = dpt_num_department
@@ -18,9 +17,6 @@ class InputData:
         self.but_longitude = but_longitude
         self.but_region_idr_region = but_region_idr_region
         self.zod_idr_zone_dgr = zod_idr_zone_dgr
-        self.day_id_week = day_id_week
-        self.day_id_month = day_id_month
-        self.day_id_year = day_id_year
 
 @api_blueprint.route('/predict', methods=['POST'])
 def predict():

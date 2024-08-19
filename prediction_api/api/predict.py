@@ -2,6 +2,7 @@ import joblib
 import config
 import time
 import os
+from utils import preprocess_calendar_features
 
 # Waiting for the model training to finish
 def wait_for_model_training():
@@ -21,4 +22,5 @@ except FileNotFoundError:
     raise RuntimeError("Model file not found")
 
 def make_prediction(input_df):
+    input_df = preprocess_calendar_features(input_df)
     return model.predict(input_df)

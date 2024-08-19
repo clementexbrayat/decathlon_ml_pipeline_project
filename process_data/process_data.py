@@ -1,5 +1,6 @@
 import pandas as pd
 import config
+from utils import preprocess_calendar_features
 
 def process_data():
     # Data loading
@@ -11,12 +12,9 @@ def process_data():
     df_train_feat = pd.merge(df_train, df_bu_feat, how="left", on="but_num_business_unit")
     df_test_feat = pd.merge(df_test, df_bu_feat, how="left", on="but_num_business_unit")
 
-    # Split train, val set
-    df_train_feat["day_id"] = pd.to_datetime(df_train_feat["day_id"])
-    df_train_feat["day_id_week"] = df_train_feat.day_id.dt.isocalendar().week
-    df_train_feat["day_id_month"] = df_train_feat["day_id"].dt.month
-    df_train_feat["day_id_year"] = df_train_feat["day_id"].dt.year
+    df_train_feat = preprocess_calendar_features(df_train_feat)
 
+    # Split train, val set
     df_train = df_train_feat[df_train_feat.day_id_year < 2017]
     df_val = df_train_feat[df_train_feat.day_id_year == 2017]
 

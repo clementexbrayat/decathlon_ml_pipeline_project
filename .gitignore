@@ -1,3 +1,8 @@
+# Specific files
+data/raw/*.csv.gz
+data/processed/*.csv
+data/model/*.pkl
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

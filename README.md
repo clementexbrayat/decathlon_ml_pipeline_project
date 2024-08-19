@@ -43,6 +43,7 @@ machine_learning_project/
 │
 ├── docker-compose.yml            # Docker Compose configuration file
 ├── config.py                     # Configuration file
+├── utils.py                      # Utility functions file
 └── README.md                     # Project README file
 ```
 
@@ -64,6 +65,6 @@ You can eaither run all the pipeline in one go with docker-compose up or run eac
 Once the Prediction API is running, you can make predictions by sending a POST request to http://localhost:8000/predict with JSON data. Example using curl:
 curl -X POST "http://localhost:8000/predict/" 
 -H "Content-Type: application/json" 
--d '{"day_id": "2017-11-25", "but_num_business_unit": 95, "dpt_num_department": 73, "but_postcode": 80000, "but_latitude": 49.9, "but_longitude": 2.28, "but_region_idr_region": 69, "zod_idr_zone_dgr": 4, "day_id_week": 47, "day_id_month": 11, "day_id_year": 2017}'. 
+-d '{"day_id": "2017-11-25", "but_num_business_unit": 95, "dpt_num_department": 73, "but_postcode": 80000, "but_latitude": 49.9, "but_longitude": 2.28, "but_region_idr_region": 69, "zod_idr_zone_dgr": 4}'. 
 The API will return a JSON response with the predictions: {"prediction":prediction_value}
 
