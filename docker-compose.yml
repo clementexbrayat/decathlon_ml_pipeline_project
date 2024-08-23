@@ -1,25 +1,29 @@
 version: '3.8'
 
 services:
-  # db:
-  #   image: postgres:13
-  #   environment:
-  #     POSTGRES_USER: username
-  #     POSTGRES_PASSWORD: password
-  #     POSTGRES_DB: mydatabase
-  #   volumes:
-  #     - pg_data:/var/lib/postgresql/data
-  #   ports:
-  #     - "5432:5432"
+  db:
+    image: postgres:13
+    environment:
+      OSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
   process_data:
     build:
       context: .
       dockerfile: process_data/Dockerfile
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
     environment:
-      # DATABASE_URI: postgresql://username:password@db:5432/mydatabase
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
       PYTHONPATH: /app
     volumes:
       - ./data:/data
@@ -30,8 +34,14 @@ services:
     build:
       context: .
       dockerfile: train_model/Dockerfile
+    depends_on:
+      - db
     environment:
-      # DATABASE_URI: postgresql://username:password@db:5432/mydatabase
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
       PYTHONPATH: /app
     volumes:
       - ./data:/data
@@ -42,9 +52,16 @@ services:
     build:
       context: .
       dockerfile: prediction_api/Dockerfile
+    depends_on:
+      - db
     ports:
       - "8000:8000"
     environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
       PYTHONPATH: /app
     volumes:
       - ./data:/data

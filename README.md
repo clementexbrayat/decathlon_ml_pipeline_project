@@ -60,8 +60,8 @@ machine_learning_project/
 ##### Getting started
 
 - Clone the Repository
-https://github.com/clementexbrayat/decathlon_ml_pipeline_project.git
-cd decathlon_ml_pipeline_project
+https://github.com/clementexbrayat/ml_pipeline_project.git
+cd ml_pipeline_project
 
 - Load your raw data in 'data/raw/' folder
 
